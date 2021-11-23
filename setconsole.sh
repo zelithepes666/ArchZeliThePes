@@ -1,6 +1,6 @@
 #!/bin/bash
 
 sudo cat <<EOF > /etc/vconsole.conf
-KEYMAP=us
+KEYMAP=cz_qwertz
 FONT=ter-v16b
 EOF
