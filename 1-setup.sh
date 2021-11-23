@@ -34,12 +34,12 @@ echo "       Setup Language to US and set locale       "
 echo "-------------------------------------------------"
 sed -i 's/^#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
 locale-gen
-timedatectl --no-ask-password set-timezone America/Chicago
+timedatectl --no-ask-password set-timezone Europe/Prague
 timedatectl --no-ask-password set-ntp 1
-localectl --no-ask-password set-locale LANG="en_US.UTF-8" LC_TIME="en_US.UTF-8"
+localectl --no-ask-password set-locale LANG="cs_CZ.UTF-8" LC_TIME="cs.CZ.UTF-8"
 
 # Set keymaps
-localectl --no-ask-password set-keymap us
+localectl --no-ask-password set-keymap cz_qwertz
 
 # Add sudo no password rights
 sed -i 's/^# %wheel ALL=(ALL) NOPASSWD: ALL/%wheel ALL=(ALL) NOPASSWD: ALL/' /etc/sudoers
@@ -66,7 +66,7 @@ PKGS=(
 'alsa-plugins' # audio plugins
 'alsa-utils' # audio utils
 'ark' # compression
-'audiocd-kio' 
+'audiocd-kio'
 'autoconf' # build
 'automake' # build
 'base'
@@ -82,9 +82,8 @@ PKGS=(
 'breeze-gtk'
 'bridge-utils'
 'btrfs-progs'
-'celluloid' # video players
+'vlc' # video players
 'cmatrix'
-'code' # Visual Studio code
 'cronie'
 'cups'
 'dialog'
@@ -126,7 +125,7 @@ PKGS=(
 'kscreen'
 'kvantum-qt5'
 'kitty'
-'konsole'
+'terminator'
 'kscreen'
 'layer-shell-qt'
 'libdvdcss'
@@ -172,7 +171,7 @@ PKGS=(
 'rsync'
 'sddm'
 'sddm-kcm'
-'snapper'
+'snapper'titus
 'spectacle'
 'steam'
 'sudo'
@@ -209,7 +208,7 @@ done
 
 #
 # determine processor type and install microcode
-# 
+#
 proc_type=$(lscpu | awk '/Vendor ID:/ {print $3}')
 case "$proc_type" in
 	GenuineIntel)
@@ -222,7 +221,7 @@ case "$proc_type" in
 		pacman -S --noconfirm amd-ucode
 		proc_ucode=amd-ucode.img
 		;;
-esac	
+esac
 
 # Graphics Drivers find and install
 if lspci | grep -E "NVIDIA|GeForce"; then
@@ -241,7 +240,7 @@ echo "username=$username" >> ${HOME}/ArchTitus/install.conf
 fi
 if [ $(whoami) = "root"  ];
 then
-    useradd -m -G wheel,libvirt -s /bin/bash $username 
+    useradd -m -G wheel,libvirt -s /bin/bash $username
 	passwd $username
 	cp -R /root/ArchTitus /home/$username/
     chown -R $username: /home/$username/ArchTitus
@@ -250,4 +249,3 @@ then
 else
 	echo "You are already a user proceed with aur installs"
 fi
-
